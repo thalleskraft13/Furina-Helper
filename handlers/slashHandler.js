@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-
+const { PermissionsBitField } = require("discord.js")
 module.exports = (client) => {
   const commandFiles = fs.readdirSync(path.join(__dirname, "../commands")).filter(file => file.endsWith(".js"));
 
@@ -15,7 +15,7 @@ module.exports = (client) => {
     const command = client.commands.get(interaction.commandName);
     if (!command) return;
 
-    if (!interaction.memberPermissions?.has("ManageGuild")) {
+    if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageGuild)) {
       return interaction.reply({
         content: "❌ Você precisa da permissão **Gerenciar Servidor** para usar este comando.",
         ephemeral: true,
